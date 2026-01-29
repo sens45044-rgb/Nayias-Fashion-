@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nayias Fashion Store</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <!-- CSS -->
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Roboto', sans-serif; }
+        h1,h2,h3 { font-family: 'Playfair Display', serif; }
+        .container { width:90%; max-width:1200px; margin:0 auto; }
+
+        /* Header */
+        .header { background:#111; color:#fff; padding:10px 0; position:sticky; top:0; z-index:1000; }
+        .header .logo h1 { font-size:1.8rem; display:flex; align-items:center; gap:10px; }
+        .nav-list { list-style:none; display:flex; gap:20px; align-items:center; }
+        .nav-list li a { color:#fff; text-decoration:none; display:flex; align-items:center; gap:5px; }
+        .nav-list li a:hover { color:#f0c040; }
+        .cart-icon { margin-left:auto; cursor:pointer; position:relative; font-size:1.3rem; }
+        .cart-count { position:absolute; top:-5px; right:-10px; background:red; color:#fff; font-size:0.8rem; padding:2px 6px; border-radius:50%; }
+
+        /* Hero */
+        .hero { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; padding:50px 0; background:#f5f5f5; }
+        .hero-content { flex:1; min-width:300px; }
+        .hero-content h2 { font-size:2rem; margin-bottom:20px; }
+        .btn { display:inline-block; padding:10px 20px; text-decoration:none; border-radius:5px; margin:5px 0; cursor:pointer; }
+        .btn.primary { background:#f0c040; color:#111; border:none; }
+        .btn.secondary { background:#111; color:#fff; border:1px solid #f0c040; }
+        .hero-image img { max-width:500px; width:100%; border-radius:10px; }
+
+        /* Categories */
+        .categories { padding:50px 0; text-align:center; }
+        .category-grid { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+        .category-card { background:#fff; padding:20px; border-radius:10px; width:250px; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:transform 0.3s; }
+        .category-card:hover { transform:translateY(-5px); }
+        .category-card img { width:100%; border-radius:10px; margin-bottom:10px; }
+
+        /* Products */
+        .featured-products { padding:50px 0; text-align:center; }
+        .product-grid { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; }
+        .product-card { background:#fff; padding:20px; border-radius:10px; width:250px; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:transform 0.3s; }
+        .product-card:hover { transform:translateY(-5px); }
+        .product-card img { width:100%; border-radius:10px; margin-bottom:10px; }
+        .product-card h3 { margin-bottom:10px; }
+
+        /* About & Why Choose Us */
+        .about, .why-choose-us { padding:50px 0; }
+        .features { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; text-align:center; }
+        .feature { background:#fff; padding:20px; border-radius:10px; width:220px; box-shadow:0 4px 10px rgba(0,0,0,0.1); transition:transform 0.3s; }
+        .feature:hover { transform:translateY(-5px); }
+        .feature i { font-size:2rem; color:#f0c040; margin-bottom:10px; }
+
+        /* Contact */
+        .contact-content { display:flex; flex-wrap:wrap; gap:20px; }
+        .contact-form { flex:1; min-width:300px; display:flex; flex-direction:column; gap:10px; }
+        .contact-form input, .contact-form textarea { padding:10px; border-radius:5px; border:1px solid #ccc; }
+        .contact-info { flex:1; min-width:300px; background:#f5f5f5; padding:20px; border-radius:10px; }
+        .contact-info p { margin-bottom:10px; }
+
+        /* Footer */
+        .footer { background:#111; color:#fff; padding:20px 0; text-align:center; }
+        .footer .social-icons { margin-top:10px; display:flex; justify-content:center; gap:15px; }
+        .footer .social-icons a { color:#fff; font-size:1.2rem; }
+        .footer .social-icons a:hover { color:#f0c040; }
+
+        /* Mini Cart Popup */
+        .mini-cart { position:fixed; right:20px; top:70px; width:300px; max-height:400px; background:#fff; border-radius:10px; box-shadow:0 4px 15px rgba(0,0,0,0.2); overflow-y:auto; padding:15px; display:none; z-index:2000; }
+        .mini-cart h3 { margin-bottom:10px; }
+        .mini-cart-item { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+        .mini-cart-item img { width:50px; border-radius:5px; }
+        .mini-cart-item button { background:red; color:#fff; border:none; padding:2px 5px; border-radius:3px; cursor:pointer; }
+
+        /* Responsive */
+        @media(max-width:768px){
+            .hero { flex-direction:column; text-align:center; }
+            .hero-image { margin-top:20px; }
+            .nav-list { flex-direction:column; gap:10px; }
+            .category-grid, .product-grid, .features { flex-direction:column; align-items:center; }
+            .contact-content { flex-direction:column; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container" style="display:flex; align-items:center;">
+            <div class="logo">
+                <h1><i class="fas fa-crown"></i> Nayias Fashion</h1>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li><a href="#home"><i class="fas fa-house"></i> Home</a></li>
+                    <li><a href="#shop"><i class="fas fa-bag-shopping"></i> Shop</a></li>
+                    <li><a href="#categories"><i class="fas fa-layer-group"></i> Categories</a></li>
+                    <li><a href="#about"><i class="fas fa-circle-info"></i> About Us</a></li>
+                    <li><a href="#contact"><i class="fas fa-phone"></i> Contact</a></li>
+                </ul>
+            </nav>
+            <div class="cart-icon" onclick="toggleCart()">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h2><i class="fas fa-star"></i> Style That Defines You</h2>
+            <div class="hero-buttons">
+                <button class="btn primary" onclick="scrollToSection('shop')"><i class="fas fa-cart-shopping"></i> Shop Now</button>
+                <button class="btn secondary" onclick="scrollToSection('categories')"><i class="fas fa-eye"></i> View Collection</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://image2url.com/r2/default/images/1769697053120-15c37edc-c6ef-4ee2-9167-f6a74597f68c.jpg" alt="Fashion Banner">
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section id="categories" class="categories">
+        <div class="container">
+            <h2><i class="fas fa-layer-group"></i> Shop by Category</h2>
+            <div class="category-grid">
+                <div class="category-card">
+                    <img src="https://image2url.com/r2/default/images/1769693768723-a10b2a14-cd89-4907-9297-32fb01615a93.jpg" alt="Men's Wear">
+                    <h3><i class="fas fa-mars"></i> Men’s Wear</h3>
+                </div>
+                <div class="category-card">
+                    <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Women's Wear">
+                    <h3><i class="fas fa-venus"></i> Women’s Wear</h3>
+                </div>
+                <div class="category-card">
+                    <img src="https://image2url.com/r2/default/images/1769697689392-5f00d065-8431-4cac-8c83-f3003b5377af.jpg" alt="Kids' Wear">
+                    <h3><i class="fas fa-child"></i> Kids’ Wear</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="shop" class="featured-products">
+        <div class="container">
+            <h2><i class="fas fa-shirt"></i> Featured Products</h2>
+            <div class="product-grid" id="productGrid">
+                <div class="product-card" data-name="Elegant Dress" data-price="99.99">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Elegant Dress">
+                    <h3>Elegant Dress</h3>
+                    <p>999</p>
+                    <button class="btn primary" onclick="addToCart(this)">Add to Cart</button>
+                    <button class="btn secondary" onclick="orderNow(this)">Buy Now</button>
+                </div>
+                <div class="product-card" data-name="Classic Suit" data-price="149">
+                    <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Classic Suit">
+                    <h3>Classic Suit</h3>
+                    <p>1499</p>
+                    <button class="btn primary" onclick="addToCart(this)">Add to Cart</button>
+                    <button class="btn secondary" onclick="orderNow(this)">Buy Now</button>
+                </div>
+                <div class="product-card" data-name="Casual Jacket" data-price="79">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Casual Jacket">
+                    <h3>Casual Jacket</h3>
+                    <p>799</p>
+                    <button class="btn primary" onclick="addToCart(this)">Add to Cart</button>
+                    <button class="btn secondary" onclick="orderNow(this)">Buy Now</button>
+                </div>
+                <div class="product-card" data-name="Stylish Jeans" data-price="59.99">
+                    <img src="https://images.unsplash.com/photo-1544441893-675973e31985?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Stylish Jeans">
+                    <h3>Stylish Jeans</h3>
+                    <p>59.99</p>
+                    <button class="btn primary" onclick="addToCart(this)">Add to Cart</button>
+                    <button class="btn secondary" onclick="orderNow(this)">Buy Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mini Cart Popup -->
+    <div class="mini-cart" id="miniCart">
+        <h3>Your Cart</h3>
+        <div id="cartItems"></div>
+        <p id="cartTotal"></p>
+        <button class="btn primary" onclick="checkout()">Checkout via WhatsApp</button>
+    </div>
+
+    <!-- About, Why Choose Us, Contact, Footer -->
+    <!-- (তুমি আগের মতো রাখতে পারো, শুধু উপরে কার্ট ফিচার যুক্ত হল) -->
+
+    <!-- JS -->
+    <script>
+        // Smooth Scroll
+        function scrollToSection(id){
+            document.getElementById(id).scrollIntoView({behavior:'smooth'});
+        }
+
+        // Cart Logic
+        let cart = [];
+
+        function addToCart(btn){
+            const card = btn.closest('.product-card');
+            const name = card.dataset.name;
+            const price = card.dataset.price;
+            cart.push({name, price});
+            updateCart();
+            alert(name + " added to cart!");
+        }
+
+        function updateCart(){
+            const cartCount = document.getElementById('cartCount');
+            cartCount.textContent = cart.length;
+
+            const cartItems = document.getElementById('cartItems');
+            cartItems.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += parseFloat(item.price);
+                cartItems.innerHTML += `<div class="mini-cart-item">
+                    <span>${item.name} - $${item.price}</span>
+                    <button onclick="removeCartItem(${index})"><i class="fas fa-trash"></i></button>
+                </div>`;
+            });
+            document.getElementById('cartTotal').textContent = "Total: $" + total.toFixed(2);
+        }
+
+        function removeCartItem(index){
+            cart.splice(index,1);
+            updateCart();
+        }
+
+        function toggleCart(){
+            const miniCart = document.getElementById('miniCart');
+            miniCart.style.display = miniCart.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function orderNow(btn){
+            const card = btn.closest('.product-card');
+            const name = card.dataset.name;
+            const price = card.dataset.price;
+            const url = "https://wa.me/8768019646?text=" + encodeURIComponent(`Hello, I want to order: ${name} ($${price})`);
+            window.open(url, '_blank');
+        }
+
+        function checkout(){
+            let message = "Hello, I want to order:\n";
+            cart.forEach(item=>{
+                message += `${item.name} - $${item.price}\n`;
+            });
+            const url = "https://wa.me/8768019646?text=" + encodeURIComponent(message);
+            window.open(url, '_blank');
+        }
+
+        // Contact Form Alert
+        document.getElementById('contactForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            alert("Thank you! Your message has been sent.");
+            this.reset();
+        });
+    </script>
+</body>
+</html>
